@@ -88,6 +88,14 @@ export default function Home() {
   return (
     <>
      <div className="container mx-auto px-4 py-8 space-y-8">
+     <div className="text-center space-y-4">
+          <h1 className="text-4xl font-extrabold text-indigo-600">
+            Welcome to Your Task Manager
+          </h1>
+          <p className="text-lg text-gray-500">
+            Manage, organize, and track your tasks with ease!
+          </p>
+        </div>
       <TaskForm
         onSubmit={editTask ? handleEditTask : handleAddTask}
         initialTask={editTask}
