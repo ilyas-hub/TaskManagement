@@ -12,7 +12,7 @@ export default function Home() {
     const fetchTasks = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/getTasks`
+          `https://taskmanagement-3g2s.onrender.com/api/v1/getTasks`
         );
         setTasks(response.data);
       } catch (error) {
@@ -34,7 +34,7 @@ export default function Home() {
 
       // Proceed with the API call if the validation passes
       const response = await axios.post(
-        `http://localhost:5000/api/v1/createTask`,
+        `https://taskmanagement-3g2s.onrender.com/api/v1/createTask`,
         task
       );
       setTasks((prevTasks) => [...prevTasks, response.data]);
@@ -52,7 +52,7 @@ export default function Home() {
   const handleEditTask = async (task) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/v1/updateTask/${task._id}`, 
+        `https://taskmanagement-3g2s.onrender.com/api/v1/updateTask/${task._id}`, 
         task // Pass the updated task data
       );
       setTasks(
@@ -74,7 +74,7 @@ export default function Home() {
       console.log("idid", id);
 
       await axios.delete(
-        `http://localhost:5000/api/v1/deleteTask/${id}`
+        `https://taskmanagement-3g2s.onrender.com/api/v1/deleteTask/${id}`
       );
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id)); // Remove task from state
     } catch (error) {
