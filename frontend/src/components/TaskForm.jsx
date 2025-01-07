@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineSave } from "react-icons/ai";
 import { MdOutlineCancel } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export default function TaskForm({ onSubmit, initialTask = null }) {
   const [task, setTask] = useState({
@@ -11,7 +12,7 @@ export default function TaskForm({ onSubmit, initialTask = null }) {
     status: "Pending",
     dueDate: "",
   });
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (initialTask) {
       setTask(initialTask);
@@ -27,14 +28,28 @@ export default function TaskForm({ onSubmit, initialTask = null }) {
     e.preventDefault();
 
     try {
+      console.log("Submitting task:", task);
+
+      // Await the onSubmit function to ensure it completes without error
       await onSubmit(task);
+
+      // Show success toast
       toast.success(
         initialTask
           ? "Task updated successfully!"
           : "Task created successfully!"
       );
+
+      // Reset the task form
       setTask({ title: "", description: "", status: "Pending", dueDate: "" });
+
+      // Navigate to the home page
+      console.log("Navigating to home page...");
+      navigate("/");
     } catch (error) {
+      console.error("Error during submission:", error);
+
+      // Handle error response from the API
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
       } else {
@@ -46,19 +61,19 @@ export default function TaskForm({ onSubmit, initialTask = null }) {
   const handleCancel = () => {
     setTask({ title: "", description: "", status: "Pending", dueDate: "" });
     toast.info("Task creation/edit canceled.");
+    navigate("/");
   };
   useEffect(() => {
     if (initialTask) {
       setTask({
         ...initialTask,
-        dueDate: initialTask.dueDate.split("T")[0], 
+        dueDate: initialTask.dueDate.split("T")[0],
       });
     }
   }, [initialTask]);
-
   return (
-    <div className="flex justify-center mx-auto lg:w-[90%] sm:w-full md:w-full items-center py-10 bg-gray-100">
-      <div className="lg:w-[60%] sm-w-full md-w-full">
+    <div className="flex justify-center mx-auto lg:w-[90%] sm:w-full md:w-full items-center py-10 bg-gray-100 h-[calc(100vh-80px)]">
+      <div className="lg:w-[60%] sm:w-full md:w-full">
         <form
           onSubmit={handleSubmit}
           className="bg-white shadow-md rounded-lg p-6 space-y-4"
